@@ -9,7 +9,7 @@ Os scripts preenchem automaticamente o formulário no site do SIGAA com os segui
 - **Unidade**: CAMPUS UNB GAMA-FACULDADE DE CIÊNCIAS E TECNOLOGIAS EM ENGENHARIA - BRASÍLIA
 - **Ano-Período**: 2025-1
 
-Em seguida, extraem os dados das turmas encontradas e os salvam em arquivos CSV.
+Em seguida, extraem os dados das turmas encontradas e os salvam em arquivos JSON.
 
 ## Versões Disponíveis
 
@@ -51,17 +51,19 @@ Ambos os scripts irão:
 1. Acessar o site do SIGAA
 2. Preencher o formulário com os valores configurados
 3. Extrair os dados das turmas
-4. Salvar os resultados em um arquivo CSV na pasta `dados/`
+4. Salvar os resultados em um arquivo JSON na pasta `dados/`
 
 ## Estrutura de Dados
 
-O CSV resultante contém as seguintes colunas:
-- `codigo`: Código da disciplina
-- `disciplina`: Nome da disciplina
-- `turma`: Número da turma
-- `horario`: Horário das aulas
-- `local`: Local onde as aulas ocorrem
-- `docente`: Nome do professor responsável
+O JSON resultante contém as seguintes chaves:
+
+- `codigo`: Código da disciplina.
+- `nome`: Nome da disciplina.
+- `tipo`: Tipo da atividade (exemplo: "DISCIPLINA").
+- `ch_total`: Carga horária total da disciplina.
+- `unidade`: Unidade de ensino onde a disciplina é ofertada.
+- `id`: Identificador único da disciplina.
+- `ementa`: Descrição do conteúdo programático da disciplina.
 
 ## Resolução de Problemas
 
