@@ -79,3 +79,110 @@ Para análise e depuração:
 ## Nota Legal
 
 Este script é apenas para fins educacionais. Respeite os termos de uso do site do SIGAA. 
+
+
+---
+
+# **Documentação do Projeto: Recomendador de Disciplinas da UnB**
+
+## **1. Visão Geral**
+Este projeto tem como objetivo recomendar automaticamente disciplinas da Universidade de Brasília (UnB) para os alunos, utilizando inteligência artificial generativa da AWS Bedrock. O sistema recebe como entrada o curso do usuário e suas áreas de interesse e, com base nesses dados, sugere disciplinas relevantes.
+
+## **2. Arquitetura do Sistema**
+
+### **2.1. Componentes Principais**
+
+1. **Raspagem de Dados (Web Scraping)**
+   - Extrai informações sobre as disciplinas e seus respectivos cursos do SIGAA.
+   - Obtém a descrição de cada disciplina e os cursos oferecidos na UnB.
+   
+2. **Armazenamento de Dados (Amazon S3)**
+   - Os dados extraídos do SIGAA são armazenados no Amazon S3.
+   - Esses dados servirão como base de conhecimento para o modelo de IA.
+
+3. **Base de Conhecimento**
+   - Estruturamos os dados coletados para facilitar a consulta.
+   - A base de conhecimento contém informações organizadas sobre as disciplinas e suas descrições.
+
+4. **Módulo de IA Generativa (AWS Bedrock)**
+   - Um sistema multiagente processa a base de conhecimento para gerar recomendações:
+     - **Agente 1**: Identifica disciplinas relevantes com base no curso e nos interesses do aluno.
+     - **Agente 2**: Recupera a descrição detalhada de cada disciplina sugerida.
+
+5. **Interface do Usuário (Streamlit)**
+   - Interface web responsiva onde o aluno informa seu curso e áreas de interesse.
+   - Conecta-se ao serviço de IA para obter as recomendações e exibir os resultados.
+
+6. **Pipeline de Processamento**
+   - Automatiza a atualização dos dados no S3 e a estruturação da base de conhecimento.
+   - Garante que o modelo de IA tenha sempre informações atualizadas.
+
+### **2.2. Fluxo de Dados**
+1. O sistema realiza a raspagem dos dados do SIGAA.
+2. As informações extraídas (disciplinas e descrições) são armazenadas no Amazon S3.
+3. Um pipeline de processamento organiza esses dados e os transforma em uma base de conhecimento.
+4. O AWS Bedrock consulta essa base e executa o processo multiagente para gerar recomendações.
+5. A interface do usuário (Streamlit) captura os inputs do aluno e solicita recomendações ao AWS Bedrock.
+6. Os resultados são retornados e exibidos para o aluno.
+
+## **3. Diagrama da Arquitetura**
+
+```plaintext
++-----------------------------------------------------+
+|                   Usuário                          |
+|    (Acessa Streamlit e fornece inputs)            |
++-----------------------------------------------------+
+                          |
+                          v
++-----------------------------------------------------+
+|            Interface do Usuário (Streamlit)        |
+|  - Coleta curso e interesses do usuário           |
+|  - Envia requisição para AWS Bedrock              |
+|  - Exibe disciplinas recomendadas                 |
++-----------------------------------------------------+
+                          |
+                          v
++-----------------------------------------------------+
+|        Serviço de IA Generativa (AWS Bedrock)      |
+|  - Multiagente processa a requisição              |
+|  - Agente 1: Busca disciplinas relevantes         |
+|  - Agente 2: Retorna descrição detalhada          |
++-----------------------------------------------------+
+                          |
+                          v
++-----------------------------------------------------+
+|          Base de Conhecimento (AWS S3)            |
+|  - Contém disciplinas e descrições                |
+|  - Alimentada pelo pipeline de dados              |
++-----------------------------------------------------+
+                          ^
+                          |
++-----------------------------------------------------+
+|         Pipeline de Processamento                 |
+|  - Extrai dados do S3 e estrutura para IA         |
++-----------------------------------------------------+
+                          ^
+                          |
++-----------------------------------------------------+
+|          Raspagem de Dados (SIGAA)                |
+|  - Coleta cursos e disciplinas da UnB             |
+|  - Armazena no S3                                 |
++-----------------------------------------------------+
+```
+
+## **4. Tecnologias Utilizadas**
+- **AWS Bedrock**: Motor de IA generativa para processar recomendações.
+- **Amazon S3**: Armazenamento de dados estruturados.
+- **Streamlit**: Interface interativa para os alunos.
+- **Python (BeautifulSoup, Scrapy, Requests)**: Raspagem de dados do SIGAA.
+- **Pandas, JSON**: Manipulação e formatação dos dados.
+
+## **5. Benefícios do Sistema**
+- Automatiza a sugestão de disciplinas relevantes para os alunos.
+- Facilita a escolha de matérias alinhadas aos interesses acadêmicos.
+- Mantém os dados sempre atualizados através de um pipeline automatizado.
+- Utiliza IA generativa para oferecer recomendações personalizadas.
+
+## **6. Considerações Finais**
+Este sistema visa facilitar a vida acadêmica dos alunos da UnB, oferecendo sugestões personalizadas de disciplinas com base no perfil de cada estudante. Com o uso de IA generativa da AWS Bedrock e um pipeline de processamento automatizado, garantimos um fluxo eficiente e sempre atualizado para a recomendação de matérias.
+
